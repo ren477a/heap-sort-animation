@@ -13,6 +13,7 @@ public class Main extends JFrame {
 	private ButtonAction bl;
 
 	//private int i1, i2; //debug variables
+	private int endIndex = 9;
 	private ArrayList<Integer> i1;
 	private ArrayList<Integer> i2;
 	private int index = 0;
@@ -27,25 +28,26 @@ public class Main extends JFrame {
 	public Main() {
 		i1 = new ArrayList<Integer>();
 		i2 = new ArrayList<Integer>();
-		i1.add(0);
-		i2.add(1);
-		i1.add(0);
-		i2.add(2);
-		i1.add(1);
-		i2.add(3);
-		i1.add(1);
-		i2.add(4);
+//		i1.add(0);
+//		i2.add(1);
+//		i1.add(0);
+//		i2.add(2);
+//		i1.add(1);
+//		i2.add(3);
+//		i1.add(1);
+//		i2.add(4);
 		vals = new int[10];
 		randomizeArray();
+		sort(vals);
 		btnPlay = new JButton("Play");
 		bl = new ButtonAction();
 		btnPlay.addActionListener(bl);
 		board = new DrawCanvas();
 		add(board);
 		add(btnPlay, BorderLayout.SOUTH);
-		ctrl = new Timer(0, new TimerAction());
+		ctrl = new Timer(1, new TimerAction());
 		ctrl.setInitialDelay(1000);
-		ctrl2 = new Timer(0, new TimerAction2());
+		ctrl2 = new Timer(1, new TimerAction2());
 	}
 
 	private class DrawCanvas extends JPanel{
@@ -80,6 +82,7 @@ public class Main extends JFrame {
 	//circle movement
 	private class TimerAction implements ActionListener{
 		public void actionPerformed(ActionEvent x){
+			System.out.println("start");
 				// movement of circle
 				int index1 = i1.get(index);
 				int index2 = i2.get(index);
@@ -97,6 +100,7 @@ public class Main extends JFrame {
 					cy[index1]++;
 					cy[index2]--;
 				}
+				repaint();
 				if(cy[index2] == cyo[index1] && cx[index2] == cxo[index1]) {
 					cx[index1] = cxo[index1];
 					cx[index2] = cxo[index2];
@@ -104,20 +108,25 @@ public class Main extends JFrame {
 					cy[index2] = cyo[index2];
 					cC[index1] = Color.WHITE;
 					cC[index2] = Color.WHITE;
-					ctrl2.stop();
+					//TODO: fix bug last 3 nodes not disappearing
+					if(index1 == 0 && index2 == endIndex) {
+						cC[endIndex] = Color.BLACK;
+						endIndex--;
+					}
 					index++;
 					System.out.println(index);
 					System.out.println(index < i1.size());
 					if(index < i1.size()) {
-						ctrl2.start();
+						System.out.println("end");
 						ctrl.restart();
+						ctrl2.restart();
 					} else {
+						System.out.println("end all");
 						ctrl.stop();
-
+						ctrl2.stop();
 					}
 				}
-				repaint();
-
+				//repaint();
 
 		}
 	}
@@ -125,16 +134,12 @@ public class Main extends JFrame {
 	private class TimerAction2 implements ActionListener{
 		public void actionPerformed(ActionEvent x){
 			// movement of circle
-		//	if(index >= i1.size()) { ctrl2.stop(); }
+
 			int index1 = i1.get(index);
 			int index2 = i2.get(index);
 			cC[index1] = Color.RED;
 			cC[index2] = Color.RED;
-//			if(!ctrl.isRunning()) {
-//				cC[index1] = Color.WHITE;
-//				cC[index2] = Color.WHITE;
-//				ctrl2.stop();
-//			}
+
 			repaint();
 		}
 	}
@@ -148,7 +153,7 @@ public class Main extends JFrame {
 	}
 
 	//Heap sort methods
-	public static int[] sort(int[]A){
+	public int[] sort(int[]A){
 		for(int i = (A.length-1)/2; i>=0; i--){
 			A=build_heap(A,i,A.length-1);
 		}
@@ -160,7 +165,7 @@ public class Main extends JFrame {
 		return A;
 	}
 
-	public static int[] build_heap(int[]A, int node, int limit){
+	public int[] build_heap(int[]A, int node, int limit){
 		int child=node*2+1;
 		while (child<=limit){
 			if (child+1 <= limit && A[child] < A[child+1])
@@ -174,8 +179,11 @@ public class Main extends JFrame {
 		return A;
 	}
 
-	public static int[] swap (int[]A,int in1, int in2)
+	public int[] swap (int[]A, int in1, int in2)
 	{
+
+		i1.add(in1);
+		i2.add(in2);
 		int temp = A[in1];
 		A[in1]=A[in2];
 		A[in2]=temp;
