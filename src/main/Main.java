@@ -11,6 +11,8 @@ public class Main extends JFrame {
 	private Timer ctrl, ctrl2;
 	private ButtonAction bl;
 
+	private int i1, i2; //debug variables
+
 	private int[] vals;
 	private int[] cx = {375, 175, 575,  75, 275, 475, 675,  25, 125, 225};
 	private int[] cy = {100, 200, 200, 300, 300, 300, 300, 400, 400, 400};
@@ -29,7 +31,7 @@ public class Main extends JFrame {
 		add(board);
 		add(btnPlay, BorderLayout.SOUTH);
 		ctrl = new Timer(0, new TimerAction());
-		ctrl.setInitialDelay(2000);
+		ctrl.setInitialDelay(1000);
 		ctrl2 = new Timer(0, new TimerAction2());
 	}
 
@@ -37,7 +39,7 @@ public class Main extends JFrame {
 		public DrawCanvas(){
 			super(null);
 		}
-
+		//@paint
 		public void paint(Graphics g){
 			super.paint(g);
 			g.setColor(Color.BLACK);
@@ -62,11 +64,12 @@ public class Main extends JFrame {
 		}
 	}
 
+	//circle movement
 	private class TimerAction implements ActionListener{
 		public void actionPerformed(ActionEvent x){
 			// movement of circle
-			int index1 = 3;
-			int index2 = 7;
+			int index1 = i1;
+			int index2 = i2;
 
 			if(cxo[index1] > cxo[index2] && cx[index2] != cxo[index1]) {
 				cx[index1]--;
@@ -92,12 +95,12 @@ public class Main extends JFrame {
 			repaint();
 		}
 	}
-
+	//circle highlight
 	private class TimerAction2 implements ActionListener{
 		public void actionPerformed(ActionEvent x){
 			// movement of circle
-			int index1 = 3;
-			int index2 = 7;
+			int index1 = i1;
+			int index2 = i2;
 			cC[index1] = Color.RED;
 			cC[index2] = Color.RED;
 			if(!ctrl.isRunning()) {
@@ -117,6 +120,49 @@ public class Main extends JFrame {
 		}
 	}
 
+	//Heap sort methods
+	public static int[] sort(int[]A){
+		for(int i = (A.length-1)/2; i>=0; i--){
+			A=build_heap(A,i,A.length-1);
+		}
+		for(int i=0 ; i<A.length-1; i++)
+		{
+			A= swap (A,0,A.length-1-i);
+			A= build_heap(A,0,A.length-2-i);
+		}
+		return A;
+	}
+
+	public static int[] build_heap(int[]A, int node, int limit){
+		int child=node*2+1;
+		while (child<=limit){
+			if (child+1 <= limit && A[child] < A[child+1])
+				child++;
+			if(A[child] < A[node])
+				break;
+			A= swap(A, node, child);
+			node = child;
+			child = 2*node+1;
+		}
+		return A;
+	}
+
+	public static int[] swap (int[]A,int in1, int in2)
+	{
+		int temp = A[in1];
+		A[in1]=A[in2];
+		A[in2]=temp;
+		return A;
+	}
+
+	public void startSwapAnimation(int i1, int i2) {
+		this.i1 = i1;
+		this.i2 = i2;
+		ctrl.start();
+		ctrl2.start();
+	}
+
+
 	public static void createAndShowGUI() {
 		Main app = new Main();
 		app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -131,8 +177,7 @@ public class Main extends JFrame {
 			if(ctrl.isRunning()) {
 				ctrl.stop();
 			} else {
-				ctrl.start();
-				ctrl2.start();
+				startSwapAnimation(0, 1);
 			}
 		}
 	}
