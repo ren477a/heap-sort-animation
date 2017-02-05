@@ -18,6 +18,7 @@ public class Main extends JFrame {
 	private ArrayList<Integer> i2;
 	private int index = 0;
 	private int[] vals;
+	private int[] valsDisplay;
 	private int[] cx = {375, 175, 575,  75, 275, 475, 675,  25, 125, 225};
 	private int[] cy = {100, 200, 200, 300, 300, 300, 300, 400, 400, 400};
 	private int[] cxo = {375, 175, 575,  75, 275, 475, 675,  25, 125, 225};
@@ -37,6 +38,7 @@ public class Main extends JFrame {
 //		i1.add(1);
 //		i2.add(4);
 		vals = new int[10];
+		valsDisplay = new int[10];
 		randomizeArray();
 		sort(vals);
 		btnPlay = new JButton("Play");
@@ -46,7 +48,7 @@ public class Main extends JFrame {
 		add(board);
 		add(btnPlay, BorderLayout.SOUTH);
 		ctrl = new Timer(1, new TimerAction());
-		ctrl.setInitialDelay(1000);
+		ctrl.setInitialDelay(2500);
 		ctrl2 = new Timer(1, new TimerAction2());
 	}
 
@@ -73,8 +75,10 @@ public class Main extends JFrame {
 			int fontSize = 15;
 			g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
 
-			g.setColor(Color.RED);
-			g.drawString("0", cx[0]+cDiam/2, cy[0]+cDiam/2);
+			g.setColor(Color.BLUE);
+			for (int i = 0; i < valsDisplay.length; i++) {
+				g.drawString(Integer.toString(valsDisplay[i]), cx[i]+cDiam/2, cy[i]+cDiam/2);
+			}
 
 		}
 	}
@@ -82,7 +86,6 @@ public class Main extends JFrame {
 	//circle movement
 	private class TimerAction implements ActionListener{
 		public void actionPerformed(ActionEvent x){
-			System.out.println("start");
 				// movement of circle
 				int index1 = i1.get(index);
 				int index2 = i2.get(index);
@@ -108,16 +111,17 @@ public class Main extends JFrame {
 					cy[index2] = cyo[index2];
 					cC[index1] = Color.WHITE;
 					cC[index2] = Color.WHITE;
+					int temp = valsDisplay[index1];
+					valsDisplay[index1] = valsDisplay[index2];
+					valsDisplay[index2] = temp;
 					//TODO: fix bug last 3 nodes not disappearing
 					if(index1 == 0 && index2 == endIndex) {
+						System.out.println(true);
 						cC[endIndex] = Color.BLACK;
 						endIndex--;
 					}
 					index++;
-					System.out.println(index);
-					System.out.println(index < i1.size());
 					if(index < i1.size()) {
-						System.out.println("end");
 						ctrl.restart();
 						ctrl2.restart();
 					} else {
@@ -148,6 +152,7 @@ public class Main extends JFrame {
 		Random r = new Random();
 		for (int i = 0; i < vals.length; i++) {
 			vals[i] = r.nextInt(1000);
+			valsDisplay[i] = vals[i];
 			System.out.println(vals[i]);
 		}
 	}
