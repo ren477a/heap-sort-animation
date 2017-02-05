@@ -2,6 +2,7 @@ package main;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
@@ -11,8 +12,10 @@ public class Main extends JFrame {
 	private Timer ctrl, ctrl2;
 	private ButtonAction bl;
 
-	private int i1, i2; //debug variables
-
+	//private int i1, i2; //debug variables
+	private ArrayList<Integer> i1;
+	private ArrayList<Integer> i2;
+	private int index = 0;
 	private int[] vals;
 	private int[] cx = {375, 175, 575,  75, 275, 475, 675,  25, 125, 225};
 	private int[] cy = {100, 200, 200, 300, 300, 300, 300, 400, 400, 400};
@@ -22,6 +25,16 @@ public class Main extends JFrame {
 	private int cDiam = 50;
 
 	public Main() {
+		i1 = new ArrayList<Integer>();
+		i2 = new ArrayList<Integer>();
+		i1.add(0);
+		i2.add(1);
+		i1.add(0);
+		i2.add(2);
+		i1.add(1);
+		i2.add(3);
+		i1.add(1);
+		i2.add(4);
 		vals = new int[10];
 		randomizeArray();
 		btnPlay = new JButton("Play");
@@ -67,47 +80,61 @@ public class Main extends JFrame {
 	//circle movement
 	private class TimerAction implements ActionListener{
 		public void actionPerformed(ActionEvent x){
-			// movement of circle
-			int index1 = i1;
-			int index2 = i2;
+				// movement of circle
+				int index1 = i1.get(index);
+				int index2 = i2.get(index);
+				if(cxo[index1] > cxo[index2] && cx[index2] != cxo[index1]) {
+					cx[index1]--;
+					cx[index2]++;
+				} else if (cxo[index1] < cxo[index2] && cx[index2] != cxo[index1]) {
+					cx[index1]++;
+					cx[index2]--;
+				}
+				if(cyo[index1] > cyo[index2]  && cy[index2] != cyo[index1]) {
+					cy[index1]--;
+					cy[index2]++;
+				} else if(cyo[index1] < cyo[index2]  && cy[index2] != cyo[index1]) {
+					cy[index1]++;
+					cy[index2]--;
+				}
+				if(cy[index2] == cyo[index1] && cx[index2] == cxo[index1]) {
+					cx[index1] = cxo[index1];
+					cx[index2] = cxo[index2];
+					cy[index1] = cyo[index1];
+					cy[index2] = cyo[index2];
+					cC[index1] = Color.WHITE;
+					cC[index2] = Color.WHITE;
+					ctrl2.stop();
+					index++;
+					System.out.println(index);
+					System.out.println(index < i1.size());
+					if(index < i1.size()) {
+						ctrl2.start();
+						ctrl.restart();
+					} else {
+						ctrl.stop();
 
-			if(cxo[index1] > cxo[index2] && cx[index2] != cxo[index1]) {
-				cx[index1]--;
-				cx[index2]++;
-			} else if (cxo[index1] < cxo[index2] && cx[index2] != cxo[index1]) {
-				cx[index1]++;
-				cx[index2]--;
-			}
-			if(cyo[index1] > cyo[index2]  && cy[index2] != cyo[index1]) {
-				cy[index1]--;
-				cy[index2]++;
-			} else if(cyo[index1] < cyo[index2]  && cy[index2] != cyo[index1]) {
-				cy[index1]++;
-				cy[index2]--;
-			}
-			if(cy[index2] == cyo[index1] && cx[index2] == cxo[index1]) {
-				cx[index1] = cxo[index1];
-				cx[index2] = cxo[index2];
-				cy[index1] = cyo[index1];
-				cy[index2] = cyo[index2];
-				ctrl.stop();
-			}
-			repaint();
+					}
+				}
+				repaint();
+
+
 		}
 	}
 	//circle highlight
 	private class TimerAction2 implements ActionListener{
 		public void actionPerformed(ActionEvent x){
 			// movement of circle
-			int index1 = i1;
-			int index2 = i2;
+		//	if(index >= i1.size()) { ctrl2.stop(); }
+			int index1 = i1.get(index);
+			int index2 = i2.get(index);
 			cC[index1] = Color.RED;
 			cC[index2] = Color.RED;
-			if(!ctrl.isRunning()) {
-				cC[index1] = Color.WHITE;
-				cC[index2] = Color.WHITE;
-				ctrl2.stop();
-			}
+//			if(!ctrl.isRunning()) {
+//				cC[index1] = Color.WHITE;
+//				cC[index2] = Color.WHITE;
+//				ctrl2.stop();
+//			}
 			repaint();
 		}
 	}
@@ -155,9 +182,7 @@ public class Main extends JFrame {
 		return A;
 	}
 
-	public void startSwapAnimation(int i1, int i2) {
-		this.i1 = i1;
-		this.i2 = i2;
+	public void startSwapAnimation() {
 		ctrl.start();
 		ctrl2.start();
 	}
@@ -175,9 +200,9 @@ public class Main extends JFrame {
 	private class ButtonAction implements ActionListener{
 		public void actionPerformed(ActionEvent x){
 			if(ctrl.isRunning()) {
-				ctrl.stop();
+
 			} else {
-				startSwapAnimation(0, 1);
+				startSwapAnimation();
 			}
 		}
 	}
