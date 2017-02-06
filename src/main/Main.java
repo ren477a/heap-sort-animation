@@ -20,9 +20,9 @@ public class Main extends JFrame {
 	private int[] vals;
 	private int[] valsDisplay;
 	private int[] cx = {375, 175, 575,  75, 275, 475, 675,  25, 125, 225};
-	private int[] cy = {100, 200, 200, 300, 300, 300, 300, 400, 400, 400};
+	private int[] cy = {200, 300, 300, 400, 400, 400, 400, 500, 500, 500};
 	private int[] cxo = {375, 175, 575,  75, 275, 475, 675,  25, 125, 225};
-	private int[] cyo = {100, 200, 200, 300, 300, 300, 300, 400, 400, 400};
+	private int[] cyo = {200, 300, 300, 400, 400, 400, 400, 500, 500, 500};
 	private Color[] cC = {Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE};
 	private int cDiam = 50;
 
