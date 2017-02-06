@@ -41,6 +41,9 @@ public class Main extends JFrame {
 		valsDisplay = new int[10];
 		randomizeArray();
 		sort(vals);
+		for (int i = 0; i < i1.size(); i++) {
+			System.out.println(i1.get(i) + "   " + i2.get(i));
+		}
 		btnPlay = new JButton("Play");
 		bl = new ButtonAction();
 		btnPlay.addActionListener(bl);
@@ -48,8 +51,10 @@ public class Main extends JFrame {
 		add(board);
 		add(btnPlay, BorderLayout.SOUTH);
 		ctrl = new Timer(1, new TimerAction());
-		ctrl.setInitialDelay(2500);
+		//ctrl.setInitialDelay(2500);
 		ctrl2 = new Timer(1, new TimerAction2());
+
+
 	}
 
 	private class DrawCanvas extends JPanel{
@@ -103,23 +108,26 @@ public class Main extends JFrame {
 					cy[index1]++;
 					cy[index2]--;
 				}
-				repaint();
 				if(cy[index2] == cyo[index1] && cx[index2] == cxo[index1]) {
 					cx[index1] = cxo[index1];
 					cx[index2] = cxo[index2];
 					cy[index1] = cyo[index1];
 					cy[index2] = cyo[index2];
+						System.out.println(index1+"    "+index2+"   WHITE");
 					cC[index1] = Color.WHITE;
 					cC[index2] = Color.WHITE;
+					
+					if(index1 == 0)
+						System.out.println(index1 + " ? " + index2 + " ? "+ endIndex+ "    " + (index1 == 0 && index2 == endIndex));
+					if(index1 == 0 && index2 == endIndex && valsDisplay[index1] > valsDisplay[index2]) {
+						System.out.println(index2 +   "   "+  "BLACK");
+						cC[endIndex] = Color.BLACK;
+						endIndex--;
+						System.out.println(endIndex);
+					}
 					int temp = valsDisplay[index1];
 					valsDisplay[index1] = valsDisplay[index2];
 					valsDisplay[index2] = temp;
-					//TODO: fix bug last 3 nodes not disappearing
-					if(index1 == 0 && index2 == endIndex) {
-						System.out.println(true);
-						cC[endIndex] = Color.BLACK;
-						endIndex--;
-					}
 					index++;
 					if(index < i1.size()) {
 						ctrl.restart();
@@ -130,7 +138,7 @@ public class Main extends JFrame {
 						ctrl2.stop();
 					}
 				}
-				//repaint();
+				repaint();
 
 		}
 	}
@@ -184,9 +192,7 @@ public class Main extends JFrame {
 		return A;
 	}
 
-	public int[] swap (int[]A, int in1, int in2)
-	{
-
+	public int[] swap (int[]A, int in1, int in2) {
 		i1.add(in1);
 		i2.add(in2);
 		int temp = A[in1];
@@ -213,7 +219,8 @@ public class Main extends JFrame {
 	private class ButtonAction implements ActionListener{
 		public void actionPerformed(ActionEvent x){
 			if(ctrl.isRunning()) {
-
+				ctrl.stop();
+				ctrl2.stop();
 			} else {
 				startSwapAnimation();
 			}
