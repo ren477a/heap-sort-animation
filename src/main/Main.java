@@ -29,14 +29,6 @@ public class Main extends JFrame {
 	public Main() {
 		i1 = new ArrayList<Integer>();
 		i2 = new ArrayList<Integer>();
-//		i1.add(0);
-//		i2.add(1);
-//		i1.add(0);
-//		i2.add(2);
-//		i1.add(1);
-//		i2.add(3);
-//		i1.add(1);
-//		i2.add(4);
 		vals = new int[10];
 		valsDisplay = new int[10];
 		randomizeArray();
@@ -51,7 +43,7 @@ public class Main extends JFrame {
 		add(board);
 		add(btnPlay, BorderLayout.SOUTH);
 		ctrl = new Timer(1, new TimerAction());
-		//ctrl.setInitialDelay(2500);
+		ctrl.setInitialDelay(2500);
 		ctrl2 = new Timer(1, new TimerAction2());
 
 
@@ -116,7 +108,7 @@ public class Main extends JFrame {
 						System.out.println(index1+"    "+index2+"   WHITE");
 					cC[index1] = Color.WHITE;
 					cC[index2] = Color.WHITE;
-					
+
 					if(index1 == 0)
 						System.out.println(index1 + " ? " + index2 + " ? "+ endIndex+ "    " + (index1 == 0 && index2 == endIndex));
 					if(index1 == 0 && index2 == endIndex && valsDisplay[index1] > valsDisplay[index2]) {
@@ -221,7 +213,9 @@ public class Main extends JFrame {
 			if(ctrl.isRunning()) {
 				ctrl.stop();
 				ctrl2.stop();
+				btnPlay.setText("Play");
 			} else {
+				btnPlay.setText("Pause");
 				startSwapAnimation();
 			}
 		}
