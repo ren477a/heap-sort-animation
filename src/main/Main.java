@@ -74,7 +74,7 @@ public class Main extends JFrame {
 
 			g.setColor(Color.BLUE);
 			for (int i = 0; i < valsDisplay.length; i++) {
-				g.drawString(Integer.toString(valsDisplay[i]), cx[i]+cDiam/2, cy[i]+cDiam/2);
+				g.drawString(Integer.toString(valsDisplay[i]), cx[i]+cDiam/4, cy[i]+cDiam/2);
 			}
 
 		}
