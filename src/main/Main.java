@@ -19,9 +19,11 @@ public class Main extends JFrame {
 	private int index = 0;
 	private int[] vals;
 	private int[] valsDisplay;
-	private int[] cx = {375, 175, 575,  75, 275, 475, 675,  25, 125, 225};
+	//private int[] cx = {375, 175, 575,  75, 275, 475, 675,  25, 125, 225};
+	private int[] cx = {425, 225, 625,  125, 325, 525, 725,  75, 175, 275};
 	private int[] cy = {200, 300, 300, 400, 400, 400, 400, 500, 500, 500};
-	private int[] cxo = {375, 175, 575,  75, 275, 475, 675,  25, 125, 225};
+	//private int[] cxo = {375, 175, 575,  75, 275, 475, 675,  25, 125, 225};
+	private int[] cxo = {425, 225, 625,  125, 325, 525, 725,  75, 175, 275};
 	private int[] cyo = {200, 300, 300, 400, 400, 400, 400, 500, 500, 500};
 	private Color[] cC = {Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE};
 	private int cDiam = 50;
@@ -57,7 +59,7 @@ public class Main extends JFrame {
 		public void paint(Graphics g){
 			super.paint(g);
 			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, 800, 800);
+			g.fillRect(0, 0, 900, 700);
 
 			g.setColor(Color.WHITE);
 			g.fillOval(cx[0], cy[0], cDiam, cDiam);
@@ -202,7 +204,7 @@ public class Main extends JFrame {
 	public static void createAndShowGUI() {
 		Main app = new Main();
 		app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		app.setSize(800, 800);
+		app.setSize(900, 700);
 		app.setLocationRelativeTo(null);
 		app.setVisible(true);
 
