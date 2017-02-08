@@ -220,6 +220,7 @@ public class Main extends JFrame {
 
 	public static void createAndShowGUI() {
 		Main app = new Main();
+		app.setTitle("Heap Sort Algorithm");
 		app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		app.setSize(900, 700);
 		app.setLocationRelativeTo(null);
@@ -230,6 +231,7 @@ public class Main extends JFrame {
 	private class ButtonAction implements ActionListener{
 		public void actionPerformed(ActionEvent x){
 			if(x.getSource().equals(btnPlay)) {
+				//TODO: Remove delay when resuming
 				if(ctrl.isRunning()) {
 					ctrl.stop();
 					ctrl2.stop();
