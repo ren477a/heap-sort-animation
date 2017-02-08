@@ -72,7 +72,7 @@ public class Main extends JFrame {
 					g.drawLine(cxo[i]+cDiam/2, cyo[i]+cDiam/2, cxo[2 * i + 2]+cDiam/2, cyo[2 * i + 2]+cDiam/2);
 				}
 			}
-			
+
 			//Draw nodes
 			for (int i = 0; i < cx.length; i++) {
 				g.setColor(cC[i]);
@@ -82,10 +82,10 @@ public class Main extends JFrame {
 
 			int fontSize = 15;
 			g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
-
+			//Draw numbers
 			g.setColor(Color.BLUE);
 			for (int i = 0; i < valsDisplay.length; i++) {
-				g.drawString(Integer.toString(valsDisplay[i]), cx[i]+cDiam/4, cy[i]+cDiam/2);
+				g.drawString(Integer.toString(valsDisplay[i]), cx[i]+cDiam/4, cy[i]+cDiam/2 + 5);
 			}
 
 
