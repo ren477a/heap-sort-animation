@@ -64,11 +64,21 @@ public class Main extends JFrame {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, 900, 700);
 
-
+			//Draw connecting lines
+			g.setColor(Color.WHITE);
+			for (int i = 0; i < 5; i++) {
+				g.drawLine(cxo[i]+cDiam/2, cyo[i]+cDiam/2, cxo[2*i+1]+cDiam/2, cyo[2*i+1]+cDiam/2);
+				if(i != 4) {
+					g.drawLine(cxo[i]+cDiam/2, cyo[i]+cDiam/2, cxo[2 * i + 2]+cDiam/2, cyo[2 * i + 2]+cDiam/2);
+				}
+			}
+			
+			//Draw nodes
 			for (int i = 0; i < cx.length; i++) {
 				g.setColor(cC[i]);
 				g.fillOval(cx[i], cy[i], cDiam, cDiam);
 			}
+
 
 			int fontSize = 15;
 			g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
@@ -77,6 +87,8 @@ public class Main extends JFrame {
 			for (int i = 0; i < valsDisplay.length; i++) {
 				g.drawString(Integer.toString(valsDisplay[i]), cx[i]+cDiam/4, cy[i]+cDiam/2);
 			}
+
+
 
 		}
 	}
