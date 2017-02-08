@@ -62,11 +62,7 @@ public class Main extends JFrame {
 			super.paint(g);
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, 900, 700);
-
-			g.setColor(Color.WHITE);
-			g.fillOval(cx[0], cy[0], cDiam, cDiam);
-			g.fillOval(cx[1], cy[1], cDiam, cDiam);
-			g.fillOval(cx[2], cy[2], cDiam, cDiam);
+			
 
 			for (int i = 0; i < cx.length; i++) {
 				g.setColor(cC[i]);
