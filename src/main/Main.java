@@ -7,7 +7,7 @@ import java.util.Random;
 import javax.swing.*;
 
 public class Main extends JFrame {
-	private JButton btnPlay;
+	private JButton btnPlay, btnReset;
 	private JPanel board;
 	private Timer ctrl, ctrl2;
 	private ButtonAction bl;
@@ -33,17 +33,19 @@ public class Main extends JFrame {
 		i2 = new ArrayList<Integer>();
 		vals = new int[10];
 		valsDisplay = new int[10];
+		//populate array with random values
 		randomizeArray();
 		sort(vals);
-		for (int i = 0; i < i1.size(); i++) {
-			System.out.println(i1.get(i) + "   " + i2.get(i));
-		}
 		btnPlay = new JButton("Play");
+		btnReset = new JButton("Reset");
 		bl = new ButtonAction();
 		btnPlay.addActionListener(bl);
 		board = new DrawCanvas();
 		add(board);
-		add(btnPlay, BorderLayout.SOUTH);
+		JPanel pnlSouth = new JPanel(new FlowLayout());
+		pnlSouth.add(btnPlay);
+		pnlSouth.add(btnReset);
+		add(pnlSouth, BorderLayout.SOUTH);
 		ctrl = new Timer(1, new TimerAction());
 		ctrl.setInitialDelay(2500);
 		ctrl2 = new Timer(1, new TimerAction2());
