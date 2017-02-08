@@ -67,10 +67,13 @@ public class Main extends JFrame {
 			//Draw connecting lines
 			g.setColor(Color.WHITE);
 			for (int i = 0; i < 5; i++) {
-				g.drawLine(cxo[i]+cDiam/2, cyo[i]+cDiam/2, cxo[2*i+1]+cDiam/2, cyo[2*i+1]+cDiam/2);
-				if(i != 4) {
-					g.drawLine(cxo[i]+cDiam/2, cyo[i]+cDiam/2, cxo[2 * i + 2]+cDiam/2, cyo[2 * i + 2]+cDiam/2);
-				}
+				if(cC[2*i+1] != Color.BLACK)
+					g.drawLine(cxo[i]+cDiam/2, cyo[i]+cDiam/2, cxo[2*i+1]+cDiam/2, cyo[2*i+1]+cDiam/2);
+
+				if(i != 4)
+					if(cC[2*i+2] != Color.BLACK)
+						g.drawLine(cxo[i]+cDiam/2, cyo[i]+cDiam/2, cxo[2 * i + 2]+cDiam/2, cyo[2 * i + 2]+cDiam/2);
+
 			}
 
 			//Draw nodes
