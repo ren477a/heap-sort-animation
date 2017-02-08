@@ -40,6 +40,7 @@ public class Main extends JFrame {
 		btnReset = new JButton("Reset");
 		bl = new ButtonAction();
 		btnPlay.addActionListener(bl);
+		btnReset.addActionListener(bl);
 		board = new DrawCanvas();
 		add(board);
 		JPanel pnlSouth = new JPanel(new FlowLayout());
@@ -62,7 +63,7 @@ public class Main extends JFrame {
 			super.paint(g);
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, 900, 700);
-			
+
 
 			for (int i = 0; i < cx.length; i++) {
 				g.setColor(cC[i]);
@@ -213,14 +214,39 @@ public class Main extends JFrame {
 
 	private class ButtonAction implements ActionListener{
 		public void actionPerformed(ActionEvent x){
-			if(ctrl.isRunning()) {
+			if(x.getSource().equals(btnPlay)) {
+				if(ctrl.isRunning()) {
+					ctrl.stop();
+					ctrl2.stop();
+					btnPlay.setText("Play");
+				} else {
+					btnPlay.setText("Pause");
+					startSwapAnimation();
+				}
+			} else if (x.getSource().equals(btnReset)) {
+				System.out.println("Reset button pressed");
 				ctrl.stop();
 				ctrl2.stop();
 				btnPlay.setText("Play");
-			} else {
-				btnPlay.setText("Pause");
-				startSwapAnimation();
+				//reset node position and colors
+				for (int i = 0; i < vals.length; i++) {
+					cC[i] = Color.WHITE;
+					cx[i] = cxo[i];
+					cy[i] = cyo[i];
+				}
+				randomizeArray();
+				// clear animation map (i1 and i2)
+				//reset variables
+				i1.clear();
+				i2.clear();
+				index = 0;
+				endIndex = 9;
+				System.out.println(i1.size());
+				sort(vals);
+				System.out.println(i1.size());
+				repaint();
 			}
+
 		}
 	}
 
