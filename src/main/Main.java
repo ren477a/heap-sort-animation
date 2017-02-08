@@ -77,7 +77,7 @@ public class Main extends JFrame {
 			}
 
 			//Draw nodes
-			for (int i = 0; i < cx.length; i++) {
+			for (int i = cx.length-1; i >= 0; i--) {
 				g.setColor(cC[i]);
 				g.fillOval(cx[i], cy[i], cDiam, cDiam);
 			}
