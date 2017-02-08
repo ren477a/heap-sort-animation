@@ -102,6 +102,7 @@ public class Main extends JFrame {
 					cy[index1]++;
 					cy[index2]--;
 				}
+				//end of animation
 				if(cy[index2] == cyo[index1] && cx[index2] == cxo[index1]) {
 					cx[index1] = cxo[index1];
 					cx[index2] = cxo[index2];
@@ -128,6 +129,8 @@ public class Main extends JFrame {
 						ctrl2.restart();
 					} else {
 						System.out.println("end all");
+						if(index == i1.size())
+							cC[0] = Color.BLACK;
 						ctrl.stop();
 						ctrl2.stop();
 					}
