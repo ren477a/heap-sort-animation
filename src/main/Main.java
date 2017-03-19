@@ -1,10 +1,8 @@
 package main;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
@@ -12,18 +10,22 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public class Main extends JFrame {
+    //GUI components
     private JButton btnPlay, btnReset;
     private JLabel[] sorted;
     private JPanel board;
+    private JLabel lblCurrLog;
     private Timer ctrl, ctrl2, ctrl3;
     private ButtonAction bl;
 
-    //private int i1, i2; //debug variables
+    //animation map
     private int endIndex = 9;
     private ArrayList<Integer> i1;
     private ArrayList<Integer> i2;
     private ArrayList<Boolean> willSwap;
     private ArrayList<Boolean> isSibling;
+
+    //animation variables
     private int index = 0;
     private int[] vals;
     private int[] valsDisplay;
@@ -38,6 +40,7 @@ public class Main extends JFrame {
     private int cDiam = 50;
 
     private String logMsg = "";
+    private String fullLogMsg = "";
 
     public Main() {
         i1 = new ArrayList<Integer>();
@@ -54,11 +57,12 @@ public class Main extends JFrame {
         bl = new ButtonAction();
         btnPlay.addActionListener(bl);
         btnReset.addActionListener(bl);
+        //GUI
+        Border border = BorderFactory.createLineBorder(Color.BLACK);
         board = new DrawCanvas();
         add(board);
+
         JPanel pnlNorth = new JPanel(new GridLayout(2, 11, 0, 5));
-        pnlNorth.setBorder(new EmptyBorder(20, 20, 20, 20));
-        Border border = BorderFactory.createLineBorder(Color.BLACK);
         pnlNorth.add(new JLabel("Index:"));
         for(int i = 0; i < 10; i++) {
             pnlNorth.add(new JLabel(""+i, SwingConstants.CENTER));
@@ -70,16 +74,22 @@ public class Main extends JFrame {
             sorted[i].setBorder(border);
             pnlNorth.add(sorted[i]);
         }
+        lblCurrLog = new JLabel(" ", SwingConstants.CENTER);
+        lblCurrLog.setBorder(border);
+        JPanel pnl = new JPanel(new GridLayout(2, 1, 0, 20));
+        pnl.setBorder(new EmptyBorder(20, 20, 20, 20));
+        pnl.add(pnlNorth);
+        pnl.add(lblCurrLog);
         JPanel pnlSouth = new JPanel(new FlowLayout());
         pnlSouth.add(btnPlay);
         pnlSouth.add(btnReset);
         add(pnlSouth, BorderLayout.SOUTH);
-        add(pnlNorth, BorderLayout.NORTH);
-        ctrl = new Timer(1, new TimerAction());
-        ctrl.setInitialDelay(2500);
+        add(pnl, BorderLayout.NORTH);
+        ctrl = new Timer(10, new TimerAction());
+        ctrl.setInitialDelay(5000);
         ctrl2 = new Timer(1, new TimerAction2());
         ctrl3 = new Timer(1, new TimerAction3());
-        ctrl3.setInitialDelay(2500);
+        ctrl3.setInitialDelay(5000);
 
 
     }
@@ -132,9 +142,15 @@ public class Main extends JFrame {
             // movement of circle
             int index1 = i1.get(index);
             int index2 = i2.get(index);
-            if(!logMsg.equals("Swap: " + valsDisplay[index1] + " and " + valsDisplay[index2])) {
-                logMsg = "Swap: " + valsDisplay[index1] + " and " + valsDisplay[index2];
-                System.out.println(logMsg);
+
+
+            if (!(index1 == 0 && index2 == endIndex && valsDisplay[index1] > valsDisplay[index2])) {
+                if (!logMsg.equals("Swap: " + valsDisplay[index1] + " and " + valsDisplay[index2])) {
+                    logMsg = "Swap: " + valsDisplay[index1] + " and " + valsDisplay[index2];
+                    System.out.println(logMsg);
+                    lblCurrLog.setText(logMsg);
+
+                }
             }
             if (cxo[index1] > cxo[index2] && cx[index2] != cxo[index1]) {
                 cx[index1]--;
@@ -204,18 +220,27 @@ public class Main extends JFrame {
             cC[index2] = Color.RED;
             repaint();
 
+            if (index1 == 0 && index2 == endIndex && valsDisplay[index1] > valsDisplay[index2]) {
+                if(!logMsg.equals("MAX HEAP! Swap " + valsDisplay[index1] +" and " + valsDisplay[index2])) {
+                    logMsg = "MAX HEAP! Swap " + valsDisplay[index1] +" and " + valsDisplay[index2];
+                    lblCurrLog.setText(logMsg);
+                }
+            }
         }
     }
 
     //change back to normal color
     private class TimerAction3 implements ActionListener {
         public void actionPerformed(ActionEvent x) {
+             
             int index1 = i1.get(index);
             int index2 = i2.get(index);
-            if(!logMsg.equals("Swap: " + valsDisplay[index1] + " and " + valsDisplay[index2])) {
-                logMsg = "Swap: " + valsDisplay[index1] + " and " + valsDisplay[index2];
-                System.out.println(logMsg);
-            }
+//            if(!logMsg.equals("Swap: " + valsDisplay[index1] + " and " + valsDisplay[index2])) {
+//                logMsg = "Swap: " + valsDisplay[index1] + " and " + valsDisplay[index2];
+//                System.out.println(logMsg);
+//                lblCurrLog.setText(logMsg);
+//                pushLog(logMsg);
+//            }
             cC[index1] = Color.WHITE;
             cC[index2] = Color.WHITE;
             repaint();
@@ -301,6 +326,7 @@ public class Main extends JFrame {
         } else
             logMsg = "Compare: " + valsDisplay[i1.get(index)] + " > " + valsDisplay[i2.get(index)] + " ? " + willSwap.get(index);
         System.out.println(logMsg);
+        lblCurrLog.setText(logMsg);
         ctrl2.start();
         if (willSwap.get(index)) {
             ctrl.start();
@@ -308,8 +334,8 @@ public class Main extends JFrame {
             ctrl3.start();
 
         //enable delay after unpausing
-        ctrl.setInitialDelay(2500);
-        ctrl3.setInitialDelay(2500);
+        ctrl.setInitialDelay(5000);
+        ctrl3.setInitialDelay(5000);
     }
 
 
@@ -342,6 +368,8 @@ public class Main extends JFrame {
                 }
             } else if (x.getSource().equals(btnReset)) {
                 System.out.println("Reset button pressed");
+                logMsg = " ";
+                lblCurrLog.setText(logMsg);
                 ctrl.stop();
                 ctrl2.stop();
                 ctrl3.stop();
@@ -371,6 +399,7 @@ public class Main extends JFrame {
 
         }
     }
+
 
 
     public static void main(String[] args) {
