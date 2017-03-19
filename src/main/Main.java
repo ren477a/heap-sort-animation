@@ -343,7 +343,7 @@ public class Main extends JFrame {
         Main app = new Main();
         app.setTitle("Heap Sort Algorithm");
         app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        app.setSize(900, 700);
+        app.setSize(900, 750);
         app.setLocationRelativeTo(null);
         app.setVisible(true);
 
