@@ -29,11 +29,12 @@ public class Main extends JFrame {
     private int[] valsDisplay;
     //private int[] cx = {375, 175, 575,  75, 275, 475, 675,  25, 125, 225};
     private int[] cx = {425, 225, 625, 125, 325, 525, 725, 75, 175, 275};
-    private int[] cy = {200, 300, 300, 400, 400, 400, 400, 500, 500, 500};
+    private int[] cy = {100, 200, 200, 300, 300, 300, 300, 400, 400, 400};
     //private int[] cxo = {375, 175, 575,  75, 275, 475, 675,  25, 125, 225};
     private int[] cxo = {425, 225, 625, 125, 325, 525, 725, 75, 175, 275};
-    private int[] cyo = {200, 300, 300, 400, 400, 400, 400, 500, 500, 500};
+    private int[] cyo = {100, 200, 200, 300, 300, 300, 300, 400, 400, 400};
     private Color[] cC = {Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE};
+    private Color[] valsColor = {Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE};
     private int cDiam = 50;
 
     private String logMsg = "";
@@ -116,8 +117,8 @@ public class Main extends JFrame {
             int fontSize = 15;
             g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
             //Draw numbers
-            g.setColor(Color.BLUE);
             for (int i = 0; i < valsDisplay.length; i++) {
+                g.setColor(valsColor[i]);
                 g.drawString(Integer.toString(valsDisplay[i]), cx[i] + cDiam / 4, cy[i] + cDiam / 2 + 5);
             }
 
@@ -164,6 +165,8 @@ public class Main extends JFrame {
                     if (index1 == 0 && index2 == endIndex && valsDisplay[index1] > valsDisplay[index2]) {
                         //System.out.println(index2 +   "   "+  "BLACK");
                         cC[endIndex] = Color.CYAN;
+                        valsColor[endIndex] = Color.CYAN;
+                        sorted[endIndex].setText(Integer.toString(valsDisplay[0]));
                         endIndex--;
                         //System.out.println(endIndex);
                     }
@@ -179,8 +182,11 @@ public class Main extends JFrame {
                     startSwapAnimation();
                 } else {
                     System.out.println("end all");
-                    if (index == i1.size())
+                    if (index == i1.size()) {
                         cC[0] = Color.CYAN;
+                        valsColor[0] = Color.CYAN;
+                        sorted[endIndex].setText(Integer.toString(valsDisplay[0]));
+                    }
                     ctrl.stop();
                     ctrl2.stop();
                 }
@@ -338,10 +344,13 @@ public class Main extends JFrame {
                 System.out.println("Reset button pressed");
                 ctrl.stop();
                 ctrl2.stop();
+                ctrl3.stop();
                 btnPlay.setText("Play");
                 //reset node position and colors
                 for (int i = 0; i < vals.length; i++) {
                     cC[i] = Color.WHITE;
+                    valsColor[i] = Color.BLUE;
+                    sorted[i].setText("");
                     cx[i] = cxo[i];
                     cy[i] = cyo[i];
                 }
@@ -350,6 +359,8 @@ public class Main extends JFrame {
                 //reset variables
                 i1.clear();
                 i2.clear();
+                willSwap.clear();
+                isSibling.clear();
                 index = 0;
                 endIndex = 9;
                 System.out.println(i1.size());
