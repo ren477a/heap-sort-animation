@@ -16,6 +16,7 @@ public class Main extends JFrame {
 	private int endIndex = 9;
 	private ArrayList<Integer> i1;
 	private ArrayList<Integer> i2;
+	private ArrayList<Boolean>  willSwap;
 	private int index = 0;
 	private int[] vals;
 	private int[] valsDisplay;
@@ -61,17 +62,17 @@ public class Main extends JFrame {
 		//@paint
 		public void paint(Graphics g){
 			super.paint(g);
-			g.setColor(Color.BLACK);
+			g.setColor(Color.CYAN);
 			g.fillRect(0, 0, 900, 700);
 
 			//Draw connecting lines
 			g.setColor(Color.WHITE);
 			for (int i = 0; i < 5; i++) {
-				if(cC[2*i+1] != Color.BLACK)
+				if(cC[2*i+1] != Color.CYAN)
 					g.drawLine(cxo[i]+cDiam/2, cyo[i]+cDiam/2, cxo[2*i+1]+cDiam/2, cyo[2*i+1]+cDiam/2);
 
 				if(i != 4)
-					if(cC[2*i+2] != Color.BLACK)
+					if(cC[2*i+2] != Color.CYAN)
 						g.drawLine(cxo[i]+cDiam/2, cyo[i]+cDiam/2, cxo[2 * i + 2]+cDiam/2, cyo[2 * i + 2]+cDiam/2);
 
 			}
@@ -130,7 +131,7 @@ public class Main extends JFrame {
 						System.out.println(index1 + " ? " + index2 + " ? "+ endIndex+ "    " + (index1 == 0 && index2 == endIndex));
 					if(index1 == 0 && index2 == endIndex && valsDisplay[index1] > valsDisplay[index2]) {
 						System.out.println(index2 +   "   "+  "BLACK");
-						cC[endIndex] = Color.BLACK;
+						cC[endIndex] = Color.CYAN;
 						endIndex--;
 						System.out.println(endIndex);
 					}
@@ -144,7 +145,7 @@ public class Main extends JFrame {
 					} else {
 						System.out.println("end all");
 						if(index == i1.size())
-							cC[0] = Color.BLACK;
+							cC[0] = Color.CYAN;
 						ctrl.stop();
 						ctrl2.stop();
 					}
